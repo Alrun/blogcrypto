@@ -1,0 +1,137 @@
+/** {*/
+/*    outline: 10px solid green;*/
+/*}*/
+
+html, body {
+    height: 100%
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex-grow: 1
+}
+
+a {
+    text-decoration: none;
+    transition: .12s;
+}
+
+h2:not([class]) {
+    margin-top: 2.5rem;
+}
+
+h3:not([class]) {
+    margin-top: 2rem;
+}
+
+h4:not([class]) {
+    margin-top: 1.5rem;
+}
+
+.header {
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.05), 0 4px 5px 0 rgba(0,0,0,0.04), 0 1px 10px 0 rgba(0,0,0,0.03);
+}
+
+.nav-item.active {
+    font-weight: bold;
+}
+
+.table-nowrap > * {
+    white-space: nowrap;
+}
+
+.breadcrumb-link {
+    display: flex;
+    align-items: center;
+}
+
+img:not([class]) {
+    width: 100%;
+}
+
+blockquote {
+    background: var(--light-blue);
+    position: relative;
+    padding: 20px 20px 10px;
+}
+
+blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--bs-blue);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.logo {
+    color: var(--bs-primary);
+    font-size: 40px;
+    line-height: 0.65em;
+}
+
+.attach {
+    font-size: 0.875rem;
+}
+
+.social {
+    white-space: nowrap;
+}
+
+.social-item {
+    font-size: 30px;
+    line-height: .5em;
+}
+
+.social-item:not(:last-of-type) {
+    margin-right: 10px;
+}
+
+.icon-vk {
+    width: 1.3em;
+    height: 1em;
+}
+
+.icon-twitter {
+    width: 1em;
+    height: 1em;
+}
+
+.icon-facebook {
+    width: 1em;
+    height: 1em;
+}
+
+.icon-instagram {
+    width: 1em;
+    height: 1em;
+}
+
+.icon-ok {
+    width: 1em;
+    height: 1em;
+    margin-left: -8px;
+}
+
+.icon-telegram {
+    width: 1em;
+    height: 1em;
+}
+
+@media (min-width: 768px) {
+    .attach {
+        font-size: 1rem;
+    }
+}
