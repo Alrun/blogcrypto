@@ -7,7 +7,8 @@
     keywords: '',
     type: 'category',
     url: '',
-    image: '/public/images/test.jpg'
+    image: '/public/images/test.jpg',
+    htmlWebpackPlugin: htmlWebpackPlugin
 }; %>
 
 <% var header = {
@@ -15,8 +16,8 @@
 }; %>
 
 <%= _.template(require('html-loader!../components/head.html'))(page) %>
-
 <body class="page">
+
 <div class="wrapper">
     <%= _.template(require('html-loader!../components/header.html'))(header) %>
 
@@ -61,5 +62,3 @@
     <%= require('html-loader!../components/footer.html') %>
 
 </div>
-</body>
-</html>

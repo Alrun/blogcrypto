@@ -7,7 +7,8 @@
     keywords: '',
     type: 'website',
     url: '',
-    image: '/public/images/test.jpg'
+    image: '/public/images/test.jpg',
+    htmlWebpackPlugin: htmlWebpackPlugin
 }; %>
 
 <% var header = {
@@ -15,23 +16,23 @@
 }; %>
 
 <%= _.template(require('html-loader!../components/head.html'))(page) %>
-
 <body class="page">
-    <div class="wrapper">
-        <%= _.template(require('html-loader!../components/header.html'))(header) %>
 
-        <main class="main">
-            <div class="container">
+<div class="wrapper">
+    <%= _.template(require('html-loader!../components/header.html'))(header) %>
 
-                <section class="mb-4">
-                    <h1 class="mb-4 mt-5 display-6">Категории</h1>
-                    <%= require('html-loader!../components/categoryPreview.html') %>
-                </section>
+    <main class="main">
+        <div class="container">
 
-                <section class="mb-5">
-                    <h2 class="mb-4 display-6">Курс криптовалют</h2>
-                    <div id="market" class="table-nowrap table-responsive-xl"></div>
-                </section>
+            <section class="mb-4">
+                <h1 class="mb-4 mt-5 display-6">Категории</h1>
+                <%= require('html-loader!../components/categoryPreview.html') %>
+            </section>
+
+            <section class="mb-5">
+                <h2 class="mb-4 display-6">Курс криптовалют</h2>
+                <div id="market" class="table-nowrap table-responsive-xl"></div>
+            </section>
 
 <!--                <section>-->
 <!--                    <h2 class="mb-4 display-6">Популярные статьи</h2>-->
@@ -55,11 +56,9 @@
 <!--                    </div>-->
 <!--                </section>-->
 
-            </div>
-        </main>
+        </div>
+    </main>
 
-        <%= require('html-loader!../components/footer.html') %>
+    <%= require('html-loader!../components/footer.html') %>
 
-    </div>
-</body>
-</html>
+</div>

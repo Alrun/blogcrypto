@@ -9,65 +9,60 @@ const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 const PATHS = {
     entry: {
+        main: './src/index.js',
+        scripts: './src/pages/**/*.js',
         pages: './src/pages/**/*.html'
     },
     output: {
         css: 'css/',
         js: 'js/',
+        images: 'images/',
         dist: path.join(__dirname, './dist')
     }
 }
 
+/**
+ * Filter and define files
+ * @param {string} entry - Entry files
+ * @return [{ [key: string]: string} ] An array with list entries [ {index: 'src/index.js'} ]
+ */
+const getFiles = (entry) => {
+    const ext = entry.split('.').pop(); // get file extension
+    const re = new RegExp(`/_.*\.${ ext }`); // get files with _ (e.g. - _file-with-underscore.js)
+
+    return glob.sync(entry).filter(file => !re.test(file)).map(file => {
+        const fileName = path.basename(file, path.extname(file));
+
+        return {[fileName]: file};
+    });
+};
+
 const generatePages = (mode) => {
-    return glob.sync(PATHS.entry.pages).filter(item => !/\/_.*\.html/.test(item)).map(page => {
-        const fileName = path.basename(page, path.extname(page));
+    return getFiles(PATHS.entry.pages).map(page => {
+        const pageName = Object.keys(page)[0];
 
         return new HtmlWebpackPlugin({
-            filename: mode === 'development' ? `${fileName}.html`: `../${fileName}.html`,
-            template: `src/pages/${fileName}.html`,
+            filename: mode === 'development' ? `${pageName}.html`: `../${pageName}.html`,
+            template: Object.values(page)[0],
             minify: {
-                // collapseWhitespace: true,
-                // preserveLineBreaks: true,
+                collapseWhitespace: true,
+                preserveLineBreaks: true,
                 removeComments: mode !== 'development'
             },
+            isDevelopment: mode === 'development'
         })
     });
 }
 
-let devServer;
-
-const reloadHtml = () => {
-    const cache = {};
-    const plugin = { name: 'CustomHtmlReloadPlugin' };
-
-    if (this.hooks) {
-        this.hooks.compilation.tapAsync(plugin, compilation => {
-            compilation.hooks.htmlWebpackPluginAfterEmit.tap(plugin, data => {
-                const orig = cache[data.outputName];
-                const html = data.html.source();
-                // plugin seems to emit on any unrelated change?
-                if (orig && orig !== html) {
-                    devServer.sockWrite(devServer.sockets, 'content-changed');
-                }
-                cache[data.outputName] = html;
-            })
-        })
-    }
-};
-
 module.exports = (env, argv) => {
     const defaultConfig = {
         mode: argv.mode,
-        // context: path.resolve(__dirname, './'),
         entry: {
-            // ...scriptsEntries()
-            src: './src/index.js',
-        // scripts: './src/pages/**/*.js',
-        //     templates: './src/pages/index.html'
+            main: './src/index.js'
         },
         output: {
             filename: 'js/main.js',
-            // publicPath: './',
+            // publicPath: './', // <script src="[publicPath]/[filename]"></script>
             path: PATHS.output.dist
         },
         resolve: {
@@ -78,6 +73,11 @@ module.exports = (env, argv) => {
         },
         module: {
             rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader'
+                },
                 {
                     test: /\.css$/,
                     use: [{ loader: MiniCssExtractPlugin.loader },
@@ -110,12 +110,28 @@ module.exports = (env, argv) => {
         }
     }
 
+    const defaultPlugins = [
+        ...generatePages(argv.mode),
+        // new webpack.DefinePlugin({
+        //     PROJECT_NAME: JSON.stringify(require('./package.json').config.projectName),
+        //     PROJECT_LOCALE: JSON.stringify(require('./package.json').config.locale),
+        // }),
+        new MiniCssExtractPlugin({
+            filename: 'css/main.css',
+            chunkFilename: '[id].css'
+        }),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         {from: './src/static', to: PATHS.output.dist}
+        //     ]
+        // }),
+    ];
+
     const devConfig = {
         devServer: {
             // contentBase: path.join(__dirname, './dist'),
             // compress: true,
-            // hot: true,
-            before(app, server) { devServer = server; },
+            hot: true,
             port: 3000,
             host: '0.0.0.0',
             // public: '192.168.31.49:3000',
@@ -125,12 +141,7 @@ module.exports = (env, argv) => {
         },
         devtool: 'cheap-module-eval-source-map',
         plugins: [
-            ...generatePages(argv.mode),
-            reloadHtml,
-            new MiniCssExtractPlugin({
-                filename: 'css/main.css',
-                chunkFilename: '[id].css'
-            })
+            ...defaultPlugins
         ]
     };
 
@@ -141,13 +152,13 @@ module.exports = (env, argv) => {
                 // cleanOnceBeforeBuildPatterns: ['**/*', '../*.html'],
                 // dangerouslyAllowCleanPatternsOutsideProject: true
             }),
-            ...generatePages(argv.mode),
-            new MiniCssExtractPlugin({
-                filename: 'css/main.css',
-                chunkFilename: '[id].css'
-            }),
-            new SitemapPlugin('https://blogcrypto.info',
-                glob.sync(PATHS.entry.pages).filter(item => !/\/_.*\.html/.test(item)).map(page => path.basename(page)), {
+            ...defaultPlugins,
+            new webpack.ContextReplacementPlugin(
+                /moment[/\\]locale$/,
+                /ru/
+            ),
+            new SitemapPlugin(require('./package.json').homepage,
+                getFiles(PATHS.entry.pages).map(page => Object.keys(page)[0]), {
                 filename: '../sitemap.xml',
                 skipgzip: true,
                 lastmod: true,
@@ -158,6 +169,6 @@ module.exports = (env, argv) => {
     };
 
     return argv.mode !== 'production'
-           ? {...defaultConfig, ...devConfig}
-           : {...defaultConfig, ...prodConfig};
+       ? {...defaultConfig, ...devConfig}
+       : {...defaultConfig, ...prodConfig};
 };
