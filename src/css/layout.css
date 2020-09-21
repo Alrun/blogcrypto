@@ -3,7 +3,7 @@
 /*}*/
 
 html, body {
-    height: 100%
+    height: 100%;
 }
 
 .wrapper {
@@ -128,6 +128,12 @@ blockquote::before {
 .icon-telegram {
     width: 1em;
     height: 1em;
+}
+
+.icon-ext-link {
+    font-size: 12px;
+    margin-top: -3px;
+    margin-left: 3px;
 }
 
 @media (min-width: 768px) {

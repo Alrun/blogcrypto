@@ -11,7 +11,7 @@ const PATHS = {
     entry: {
         main: './src/index.js',
         scripts: './src/pages/**/*.js',
-        pages: './src/pages/**/*.html'
+        pages: './src/pages/**/*.pug'
     },
     output: {
         css: 'css/',
@@ -79,8 +79,17 @@ module.exports = (env, argv) => {
                     use: 'babel-loader'
                 },
                 {
+                    test: /\.pug$/,
+                    loader: 'pug-loader'
+                },
+                {
                     test: /\.css$/,
-                    use: [{ loader: MiniCssExtractPlugin.loader },
+                    use: [
+                        {
+                            loader: argv.mode !== 'production'
+                                    ? 'style-loader'
+                                    : MiniCssExtractPlugin.loader
+                        },
                         'css-loader',
                         {
                             loader: 'postcss-loader',
@@ -112,10 +121,10 @@ module.exports = (env, argv) => {
 
     const defaultPlugins = [
         ...generatePages(argv.mode),
-        // new webpack.DefinePlugin({
-        //     PROJECT_NAME: JSON.stringify(require('./package.json').config.projectName),
-        //     PROJECT_LOCALE: JSON.stringify(require('./package.json').config.locale),
-        // }),
+        new webpack.DefinePlugin({
+            PROJECT_NAME: JSON.stringify(require('./package.json').config.projectName),
+            PROJECT_LOCALE: JSON.stringify(require('./package.json').config.locale),
+        }),
         new MiniCssExtractPlugin({
             filename: 'css/main.css',
             chunkFilename: '[id].css'
@@ -141,7 +150,8 @@ module.exports = (env, argv) => {
         },
         devtool: 'cheap-module-eval-source-map',
         plugins: [
-            ...defaultPlugins
+            ...defaultPlugins,
+            new webpack.HotModuleReplacementPlugin()
         ]
     };
 

@@ -1,0 +1,48 @@
+extends ../pug/layouts/default
+
+block page-vars
+    -
+        var meta = {
+            title: 'Главная – ' + PROJECT_NAME,
+            description: 'TT',
+            keywords: '',
+            type: 'website',
+            url: '',
+            image: '/public/images/test.jpg'
+        }
+        var currentUrl = 'articles'
+        var breadcrumbsList = [
+            {
+                title: 'Категории',
+                url: '/categories.html'
+            }, {
+                title: 'Статьи',
+                url: '/category-articles.html'
+            }
+        ]
+
+block main
+    .container
+        +breadcrumbs(breadcrumbsList)
+
+        h1.display-4.mb-0 Как купить биткоин и любую другую криптовалюту?
+        .row
+            .col-lg-9.col-xl-8.mb-4
+                include ../components/kak-kupit-bitkoin-content
+
+            .col-lg-3.offset-xl-1
+                .sticky-lg-top
+                    .h3 Рекомендации
+                    .row
+                        .col-sm-6.col-lg-12.mb-4(style="display: flex")
+                            a.card(href="kak-kupit-bitkoin-i-lyubuyu-druguyu-kriptovalyutu.html")
+                                img.card-img-top(src="public/images/test.jpg", alt="", style="object-fit: cover; height: 200px")
+                                .card-body
+                                   h5.card-title Как купить биткоин и любую другую криптовалюту?
+
+                        .col-sm-6.col-lg-12.mb-4(style="display: flex")
+                            a.card(href="kak-kupit-bitkoin-i-lyubuyu-druguyu-kriptovalyutu.html")
+                                img.card-img-top(src="public/images/test.jpg", alt="", style="object-fit: cover; height: 200px")
+                                .card-body
+                                    h5.card-title Как купить биткоин и любую другую криптовалюту?
+

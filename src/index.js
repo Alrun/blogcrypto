@@ -4,9 +4,6 @@ import './js/main';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/main.css';
 
-// if (module.hot) {
-//       module.hot.accept('./index.js', function() {
-//             console.log('Accepting the updated printMe module!');
-//             printMe();
-//           })
-//     }
+
+// import cyrillicToTranslit from 'cyrillic-to-translit-js'
+// console.log(cyrillicToTranslit().transform('Как купить биткоин и любую другую криптовалюту?', '-').toLowerCase());
