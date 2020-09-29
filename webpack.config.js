@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PATHS = {
     entry: {
@@ -37,12 +38,23 @@ const getFiles = (entry) => {
     });
 };
 
+const getNestedDir = (src, dir) => {
+    const srcArr = src.split('/');
+    const srcStr = srcArr[srcArr.length - 2] !== dir
+        ? [srcArr[srcArr.length - 2], srcArr[srcArr.length - 1]].join('/')
+        : srcArr[srcArr.length - 1];
+    const srcWExt = srcStr.split('.');
+
+    return srcWExt.splice(srcWExt.length - 2, 1).join()
+}
+
 const generatePages = (mode) => {
     return getFiles(PATHS.entry.pages).map(page => {
-        const pageName = Object.keys(page)[0];
 
         return new HtmlWebpackPlugin({
-            filename: mode === 'development' ? `${pageName}.html`: `../${pageName}.html`,
+            filename: mode === 'development'
+                ? `${getNestedDir(Object.values(page)[0], 'pages')}.html`
+                : `../${getNestedDir(Object.values(page)[0], 'pages')}.html`,
             template: Object.values(page)[0],
             minify: {
                 collapseWhitespace: true,
@@ -123,7 +135,7 @@ module.exports = (env, argv) => {
         ...generatePages(argv.mode),
         new webpack.DefinePlugin({
             PROJECT_NAME: JSON.stringify(require('./package.json').config.projectName),
-            PROJECT_LOCALE: JSON.stringify(require('./package.json').config.locale),
+            PROJECT_URL: JSON.stringify(require('./package.json').homepage)
         }),
         new MiniCssExtractPlugin({
             filename: 'css/main.css',
@@ -168,13 +180,17 @@ module.exports = (env, argv) => {
                 /ru/
             ),
             new SitemapPlugin(require('./package.json').homepage,
-                getFiles(PATHS.entry.pages).map(page => Object.keys(page)[0]), {
-                filename: '../sitemap.xml',
-                skipgzip: true,
-                lastmod: true,
-                changefreq: 'weekly', //'monthly',
-                priority: '0.8'
-            })
+                getFiles(PATHS.entry.pages).map(page => {
+                    return getNestedDir(Object.values(page)[0], 'pages')
+                }), {
+                    filename: '../sitemap.xml',
+                    skipgzip: true,
+                    lastmod: true,
+                    changefreq: 'weekly', //'monthly',
+                    priority: '0.8'
+                }
+            ),
+            new BundleAnalyzerPlugin()
         ]
     };
 

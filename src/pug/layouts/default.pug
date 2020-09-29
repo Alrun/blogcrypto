@@ -4,27 +4,51 @@ block page-vars
 
 include ../mixins/mixins
 
-html(lang= PROJECT_LOCALE)
+html(lang= meta.lang)
     head
         block head
             include ../head
             +meta(meta)
 
     body.page
-
         .wrapper
             block header
-                header.header
+                header.header#top
                     nav.navbar.navbar-expand-lg.navbar-light.bg-light
                         .container
-
-                            include ../../components/header
-
-                            .collapse.navbar-collapse#navbarToggle
-                                +navbar(currentUrl)
+                            .row.w-100.align-items-center.mx-0
+                                .col-auto.px-0.order-lg-1
+                                    a.navbar-brand.mr-0(href= meta.lang === 'en' ? '/': '/' +meta.lang +'/index.html')
+                                        span.logo
+                                            img.logo-img(src='/public/icons/logo.svg', alt="logo", style="width:1em;height:1em")
+                                        | Blog Crypto
+                                .col-auto.ml-auto.px-0.order-lg-3
+                                    include ../../components/switcher/switcher
+                                .col-auto.pr-0.pl-1.pl-sm-3
+                                    button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarToggle", aria-controls="navbarToggle", aria-expanded="false", aria-label="Toggle navigation")
+                                        span.navbar-toggler-icon
+                                .col-12.col-lg.order-lg-2
+                                    .collapse.navbar-collapse#navbarToggle
+                                        +navbar(navBar.currentUrl, navBar.list)
 
             main.main
                 block main
 
             block footer
-                include ../../components/footer
+                footer.footer.bg-light.py-3.mt-5
+                    .container
+                        .row.align-items-center
+                            .col-auto.text-center.d-none.d-md-block.order-1.order-md-2
+                                a.logo(href="#top")
+                                    img.logo-img(src='/public/icons/logo.svg', alt="logo", style="width:1em;height:1em")
+
+                            .col-sm.mb-3.mb-sm-0.order-sm-3
+                                .social.text-center.text-sm-right
+                                    +social(meta.lang)
+
+                            .col-sm-auto.col-md.order-sm-2.order-md-1
+                                .attach
+                                    .d-flex.justify-content-center.justify-content-sm-start
+                                        div Email:&nbsp;
+                                        a(href="mailto:blogcryptoinfo@gmail.com") blogcryptoinfo@gmail.com
+                                    .text-center.text-sm-left © 2020 Blog crypto

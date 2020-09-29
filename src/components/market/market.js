@@ -1,12 +1,11 @@
-import template from 'lodash/template';
-import {decimalFormat} from '../../js/utils';
+// import template from 'lodash/template';
+import { decimalFormat } from '../../js/utils';
 
 export class Market {
     /**
      * @param {HTMLElement} el
-     * @param {Function} sortCb - колбэк вызова сортировки
      */
-    constructor(el, sortCb) {
+    constructor(el) {
         this.el = el;
         this.el.Table = this;
 
@@ -17,6 +16,7 @@ export class Market {
             perPage: document.querySelector('.js-market-per-page'),
             preloader: document.querySelector('.js-table-preloader'),
             pagination: document.querySelector('.js-market-pagination'),
+            btcPrice: document.querySelector('.js-btc-price')
         };
 
         this.currency = this.el.dataset.currency || this.nodes.currency && this.nodes.currency[this.nodes.currency.selectedIndex].value || 'usd';
@@ -25,22 +25,16 @@ export class Market {
         this.page = 1;
         this.graph = false;
 
-        this.symbol = this.nodes.currency && this.nodes.currency.querySelector(`option[selected]`).dataset.symbol || '$';
-        this.symbolPos = this.nodes.currency && this.nodes.currency.querySelector(`option[selected]`).dataset.symbolStart === undefined ? 'end' : 'start';
+        this.symbol = this.el.dataset.symbol || this.nodes.currency && this.nodes.currency.querySelector(`option[selected]`).dataset.symbol || '$';
+
+        if (this.el.dataset.symbolPosition === 'end') {
+            this.symbolPos = 'end'
+        } else {
+            this.symbolPos = this.nodes.currency && this.nodes.currency.querySelector(`option[selected]`).dataset.symbolStart === undefined ? 'end' : 'start';
+        }
+
         this.decimal = this.el.dataset.decimal || this.nodes.currency && this.nodes.currency.querySelector(`option[selected]`).dataset.dec || 8;
 
-        // this.sortCb = (...args) => {
-        //     if (sortCb) sortCb(...args);
-        //
-        //     const event = new CustomEvent('change:sort', { bubbles: true });
-        //     this.el.dispatchEvent(event);
-        // };
-        //
-        // this.tmpl = document.querySelector('#table-row-tmpl') ? document.querySelector('#table-row-tmpl').innerHTML : null;
-        //
-        // /** @typedef {Array<Tooltip>} */
-        // this.tooltips = [];
-        //
         this.init();
     }
 
@@ -50,7 +44,6 @@ export class Market {
     }
 
     setListeners() {
-        // this.nodes.currency.addEventListener('change', this.setCurrency.bind(this));
         if (this.nodes.currency) {
             this.nodes.currency.addEventListener('change', e => this.setCurrency( e.target.value));
         }
@@ -58,19 +51,21 @@ export class Market {
         if (this.nodes.currency) {
             this.nodes.perPage.addEventListener('change', e => this.setPerPage( e.target.value));
         }
-
-        // this.el.addEventListener('click', this.clickHandler.bind(this));
     }
 
     async initTable() {
         const data = await this.getTableData();
+
+        if (data.length && this.nodes.btcPrice) {
+            this.nodes.btcPrice.innerHTML = decimalFormat(data.filter(item => item.id === 'bitcoin')[0].current_price, 0);
+        }
 
         this.renderTable(data);
     }
 
     setCurrency(currency) {
         const current = this.nodes.currency.querySelector(`option[value=${currency}]`);
-        console.log(current.dataset.symbolStart);
+
         this.currency = currency;
         this.decimal = current.dataset.dec || 8;
         this.symbol = current.dataset.symbol;
@@ -124,8 +119,8 @@ export class Market {
             : `<td class="text-danger" style="text-align: right">
                 ${decimalFormat(cell)}%
             </td>`
-        )
-        //${<b>decimalFormat(row.current_price, D)</b>${CS}} : ${${CS} <b>${decimalFormat(row.current_price, D)}</b>}
+        );
+
         const tableRow = (row) => (
             `<tr>
                 <td>${row.market_cap_rank}</td>
@@ -138,7 +133,7 @@ export class Market {
                 <td style="text-align: right"">${P !== 'end' ? `${CS} ${decimalFormat(row.total_volume)}` : `${ decimalFormat(row.total_volume) } ${ CS }`}</td>
                 <td style="text-align: right"">${P !== 'end' ? `${CS} ${decimalFormat(row.market_cap)}` : `${ decimalFormat(row.market_cap) } ${ CS }`}</td>
             </tr>`
-        )
+        );
 
         const container = this.nodes.root.querySelector('.table');
 

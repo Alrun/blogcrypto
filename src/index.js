@@ -1,6 +1,10 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min'
+// Vendors
+import 'bootstrap/js/dist/collapse';
+
+// JS
 import './js/main';
 
+// CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './css/main.css';
 

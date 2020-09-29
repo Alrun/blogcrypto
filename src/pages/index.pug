@@ -3,38 +3,40 @@ extends ../pug/layouts/default
 block page-vars
     -
         var meta = {
-            title: 'Главная – ' + PROJECT_NAME,
-            description: 'TT',
-            keywords: '',
+            lang: 'en',
+            title: 'Cryptocurrency price | BTC in usd',
+            h1: '1 BTC in usd',
+            description: 'Coins market. Top 10 cryptocurrency prices. Price of bitcoin today. Bitcoin cash, xrp, ada, price today in usd and euro. Ethereum rate today.',
+            keywords: 'cryptocurrency prices today, bitcoin cash price, bitcoin market cap, bitcoin rate, eth price usd, bitcoin cost',
             type: 'website',
-            url: '',
-            image: '/public/images/test.jpg'
+            url: PROJECT_URL + 'index',
+            image: '/public/images/main.jpg'
         }
-        var currentUrl = ''
+        var navBar = {
+            currentUrl: '',
+            list: [
+                {
+                    value: 'market',
+                    title: 'Market',
+                    url: '/market.html'
+                }
+            ]
+        }
+        var local = {
+            marketCap: 'Top 10 cryptocurrency market cap',
+            showAll: 'Show all'
+        }
 
 block main
     .container
-        section.mb-4
-            h1.mb-4.mt-5.display-6 Популярные статьи
-            .row
-                .col-sm-6.col-lg-4.col-xl-3.mb-4(style="display: flex")
-                    +card('Как купить биткоин?', 'kak-kupit-bitkoin-content.html', 'public/images/test2.jpg', '')
+        .d-flex.align-items-baseline.justify-content-md-end.mb-4.mt-5
+            h1.display-6.mr-3= meta.h1
 
-                .col-sm-6.col-lg-4.col-xl-3.mb-4(style="display: flex")
-                    +card('Как купить биткоин?', 'kak-kupit-bitkoin-content.html', 'public/images/test2.jpg', '')
-
+            .display-4.font-weight-normal.mr-1.text-nowrap.js-btc-price
+            span.display-6 $
 
         section.mb-5
-            h2.mb-4.display-6 Курс криптовалют
+            h2.mb-4.display-6= local.marketCap
             .market.table-nowrap.table-responsive-xl.js-market(data-per-page="10", data-currency="usd", data-decimal="2")
             .mt-4
-                a.btn.btn-primary.btn-lg.active(href="/market.html", role="button", aria-pressed="true") Смотреть все
-
-        section
-            h2.mb-4.display-6 Последние статьи
-            .row
-                .col-sm-6.col-lg-4.col-xl-3.mb-4(style="display: flex")
-                    +card('Как купить биткоин?', 'kak-kupit-bitkoin-content.html', 'public/images/test2.jpg', '')
-
-                .col-sm-6.col-lg-4.col-xl-3.mb-4(style="display: flex")
-                    +card('Как купить биткоин?', 'kak-kupit-bitkoin-content.html', 'public/images/test2.jpg', '')
+                a.btn.btn-primary.btn-lg.active(href="/market.html", role="button", aria-pressed="true")= local.showAll

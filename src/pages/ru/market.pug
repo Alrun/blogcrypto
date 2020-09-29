@@ -1,36 +1,36 @@
-extends ../pug/layouts/default
+extends ../../pug/layouts/default
 
 block page-vars
     -
         var meta = {
-            lang: 'en',
-            title: 'Cryptocurrency market capitalization | Bitcoin course',
-            h1: 'Cryptocurrency market cap',
-            description: 'Altcoin market cap. Bitcoin market exchange. BTC, ethereum, bitcoin cash, xrp, litecoin, ada, dogecoin, bnb coin market cap.',
-            keywords: 'all coin market, crypto market, bitcoin market rate, cardano market, btt coin market, dash coin market cap, zcash market cap',
+            lang: 'ru',
+            title: 'Курс криптовалюты на сегодня | Биткоин к рублю, доллару, евро',
+            h1: 'Курс криптовалют',
+            description: 'Курс криптовалюты bitcoin, ethereum, iota, trx, xem, neo, waves, xmr, zcash к рублю, доллару, евро и другим фиатным валютам и криптовалютам.',
+            keywords: 'bitcoin курс, биткоин голд курс, bitcoin sv, биткоин в грн, стратис криптовалюта курс, bitcoin cash курс',
             type: 'website',
-            url: PROJECT_URL + 'market',
+            url: PROJECT_URL + 'ru/market',
             image: '/public/images/main.jpg'
         }
         var navBar = {
-            currentUrl: 'market',
+            currentUrl: 'ru/market',
             list: [
                 {
                     value: 'market',
-                    title: 'Market',
-                    url: '/market.html'
+                    title: 'Курс криптовалют',
+                    url: '/ru/market.html'
                 }
             ]
         }
         var local = {
-            currency: 'Currency',
-            perPage: 'Limit'
+            currency: 'Валюта',
+            perPage: 'Показать'
         }
 
 block main
     .container
         section.mb-4
-            h1.mb-4.mt-5.display-6= meta.h1
+            h1.mb-4.mt-5.display-6 Курс криптовалют
 
             .row.align-items-end
                 .col-sm.col-md-4.col-lg-3.col-xxl-2.mb-4
@@ -77,7 +77,7 @@ block main
                             li.page-item
                                 a.page-link(href="#") 59
 
-                    nav(aria-label="pagination")
+                    nav(aria-label="...")
                         ul.pagination.justify-content-sm-end
                             li.page-item.active(aria-current="page")
                                 span.page-link  1
@@ -97,7 +97,7 @@ block main
 
             .market.table-nowrap.table-responsive-xl.js-market
 
-            nav.mt-4(aria-label="pagination")
+            nav.mt-4(aria-label="...")
                 ul.pagination.justify-content-sm-end
                     li.page-item.active(aria-current="page")
                         span.page-link  1

@@ -1,4 +1,4 @@
-extends ../pug/layouts/default
+extends ../../pug/layouts/default
 
 block page-vars
     -
@@ -11,6 +11,12 @@ block page-vars
             image: '/public/images/test.jpg'
         }
         var currentUrl = 'articles'
+        var local = {
+            lang: 'en',
+            h1: 'Cryptocurrency market cap',
+            currency: 'Currency',
+            perPage: 'Limit'
+        }
         var breadcrumbsList = [
             {
                 title: 'Категории',
@@ -28,7 +34,7 @@ block main
         h1.display-4.mb-0 Как купить биткоин и любую другую криптовалюту?
         .row
             .col-lg-9.col-xl-8.mb-4
-                include ../components/kak-kupit-bitkoin-content
+                include ../../components/kak-kupit-bitkoin-content
 
             .col-lg-3.offset-xl-1
                 .sticky-lg-top

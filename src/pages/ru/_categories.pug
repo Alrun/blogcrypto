@@ -1,4 +1,4 @@
-extends ../pug/layouts/default
+extends ../../pug/layouts/default
 
 block page-vars
     -
@@ -11,10 +11,16 @@ block page-vars
             image: '/public/images/test.jpg'
         }
         var currentUrl = 'categories'
+        var local = {
+            lang: 'en',
+            h1: 'Cryptocurrency market cap',
+            currency: 'Currency',
+            perPage: 'Limit'
+        }
 
 block main
     .container
 
         section.mb-4
             h1.mb-4.mt-5.display-6 Категории
-            include ../components/categories
+            include ../../components/categories
