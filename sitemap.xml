@@ -4,43 +4,25 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
     <url>
         <loc>https://blogcrypto.info/index</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
+        <lastmod>2020-09-29T00:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://blogcrypto.info/ru/calculator</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://blogcrypto.info/ru/categories</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://blogcrypto.info/ru/category-articles</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
+        <loc>https://blogcrypto.info/market</loc>
+        <lastmod>2020-09-29T00:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://blogcrypto.info/ru/index</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://blogcrypto.info/ru/kak-kupit-bitkoin-i-lyubuyu-druguyu-kriptovalyutu</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
+        <lastmod>2020-09-29T00:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://blogcrypto.info/ru/market</loc>
-        <lastmod>2020-09-27T00:00:00.000Z</lastmod>
+        <lastmod>2020-09-29T00:00:00.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
