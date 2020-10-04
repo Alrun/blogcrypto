@@ -1,0 +1,22 @@
+extends ../pug/layouts/default
+
+block page-vars
+    -
+        var meta = {
+            lang: 'en',
+            title: 'Page not found | 404',
+            h1: '',
+            description: '',
+            keywords: '',
+            type: '',
+            url: '',
+            image: ''
+        }
+
+block main
+    .container
+        include ../components/404/404
+
+        .row.justify-content-center
+            .col-11.col-sm-10.col-md-9.col-lg-8.col-xl-7.col-xxl-6(style="margin-left:2.5rem;")
+                include ../components/search/search-form

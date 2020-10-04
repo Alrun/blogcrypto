@@ -180,13 +180,15 @@ module.exports = (env, argv) => {
                 /ru/
             ),
             new SitemapPlugin(require('./package.json').homepage,
-                getFiles(PATHS.entry.pages).map(page => {
+                getFiles(PATHS.entry.pages)
+                    .filter(item => Object.keys(item)[0] !== '404')
+                    .map(page => {
                     return getNestedDir(Object.values(page)[0], 'pages')
                 }), {
                     filename: '../sitemap.xml',
                     skipgzip: true,
                     lastmod: true,
-                    changefreq: 'weekly', //'monthly',
+                    changefreq: 'monthly',
                     priority: '0.8'
                 }
             ),

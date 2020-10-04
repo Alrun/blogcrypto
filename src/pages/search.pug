@@ -1,0 +1,20 @@
+extends ../pug/layouts/default
+
+block page-vars
+    -
+        var meta = {
+            lang: 'en',
+            title: 'Search',
+            h1: '',
+            description: '',
+            keywords: '',
+            type: '',
+            url: '',
+            image: ''
+        }
+
+block main
+    .container
+        .mb-4.mt-5.display-6 Search
+        include ../components/search/search
+        a.btn.btn-primary.js-link-home.px-5.mt-3(href="/", role="button") Home

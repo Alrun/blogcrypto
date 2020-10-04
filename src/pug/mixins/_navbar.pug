@@ -22,9 +22,10 @@ mixin navbar(currentUrl, List)
         //li.nav-item(class= {active: currentUrl === 'calculator'})
         //    a.nav-link(href="/calculator.html") Калькулятор
 
-        each item in List
-            li.nav-item(class= {active: currentUrl === item.value})
-                a.nav-link(href= item.url)= item.title
+        if List
+            each item in List
+                li.nav-item(class= {active: currentUrl === item.value})
+                    a.nav-link(href= item.url)= item.title
     //-.col-auto.px-0.mt-2.mt-lg-0
         include ../../components/switcher/switcher
 

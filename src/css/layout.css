@@ -159,3 +159,27 @@ blockquote::before {
         font-size: 1rem;
     }
 }
+
+@media (min-width: 991px) {
+    .attach {
+        margin-left: -20px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .attach {
+        margin-left: -40px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .attach {
+        margin-left: -50px;
+    }
+}
+
+.page_hide-local .navbar .select,
+.page_hide-local .footer .social,
+.page_hide-local .footer .form-search {
+    display: none;
+}
